@@ -34,7 +34,11 @@ def get_engine(engine_name: str, **kwargs) -> EngineLM:
     if "seed" in kwargs and "gpt-4" not in engine_name and "gpt-3.5" not in engine_name and "gpt-35" not in engine_name:
         raise ValueError(f"Seed is currently supported only for OpenAI engines, not {engine_name}")
 
-    if engine_name.startswith("azure"):
+    if engine_name.startswith("litellm/"):
+        from .litellm import Litellm
+        return Litellm(model_string=engine_name, **kwargs)
+        
+    elif engine_name.startswith("azure"):
         from .openai import AzureChatOpenAI
         # remove engine_name "azure-" prefix
         engine_name = engine_name[6:]
