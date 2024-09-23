@@ -86,7 +86,8 @@ class Litellm(ChatOpenAI):
             temperature=temperature,
             max_tokens=max_tokens,
             top_p=top_p,
-            stream=False
+            stream=False,
+            base_url=self.base_url,
             **kwargs #addiional params of completion of litellm
         )
         response_text = response = response["choices"][0]

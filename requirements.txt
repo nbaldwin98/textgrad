@@ -10,3 +10,6 @@ gdown>=5.2.0
 litellm
 pillow
 httpx
+flask
+transformers
+accelerate
