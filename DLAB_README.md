@@ -95,7 +95,13 @@ Then upgrage the transformers library:
 pip install transformers --upgrade
 ```
 
-5. You're server should now be running. You can test it out by running with the following code:
+5. Now, open a new terminal and bash into the same job:
+```shell
+runai bash job-2dc80ac0d64c
+```
+
+6. In the new session you based into, you can test it out by running with the following code. !!!ACTION REQUIRED!!!: change the base_url to the address of your server (the last address in the output of the previous step. In my case, it would be):
+
 ```python
 import textgrad as tg
 from textgrad import get_engine
@@ -106,7 +112,7 @@ engine.base_url = "http://172.16.8.121:5000/v1/completions"
 # Step 1: Get an initial response from an LLM.
 model = tg.BlackboxLLM( engine=engine)
 
-question_string = ("What is the average speed of a flying swallow")
+question_string = ("What is the average speed of a flying swallow ?")
 
 question = tg.Variable(question_string,
                        role_description="question to the LLM",
@@ -119,5 +125,11 @@ print("~~~~ Answer ~~~~")
 print(answer)
 ```
 
+IMPORTANT EXPLANATION:
+When you call `get_engine`, The name of your model must start with `litellm/huggingface/` and then the name of your model (actually this second part is optional). The `base_url` is the address of your server. The `litellm/` prefix informs textgrad that you wish to make api calls via litellm. The `huggingface/` prefix is for litellm, it informs that your Flask app is using the huggingface API (if you change this prefix, you will have to make your flask app compatible with the new API).
+
 6. If you want to stop the server, you can do so by pressing `CTRL+C` in the runai shell and kill/delete the job.
+
+7. Other options:
+- in the flask app set debug=True to see the logs of the server and for the server to restart automatically when you make changes to the code.
 

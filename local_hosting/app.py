@@ -28,9 +28,7 @@ def index():
 @app.route('/v1/completions', methods=['POST'])
 def completion():
     data = request.get_json()
-    print("hi")
-    print("data", data)
-
+ 
     # ~~~~~~~~~~~~~ Extract promp and parameters ~~~~~~~~~~~~~~~
     # Check if data is valid
     if not data or 'inputs' not in data:
@@ -40,7 +38,6 @@ def completion():
     #extract parameters, change this as you like
     parameters = data.get('parameters', {})
     parameters.pop("details")
-    
     
     # ~~~~~~~~~~~~~ Generate text ~~~~~~~~~~~~~~~
     generated_texts = text_generator(prompt, num_return_sequences=1, **parameters)
@@ -55,6 +52,7 @@ def completion():
             "logprobs": None,
             "finish_reason": "length"
         }],
+        "generated_text": generated_text,
         "usage": {
             "prompt_tokens": len(tokenizer(prompt)['input_ids']),
             "completion_tokens": len(tokenizer(generated_text)['input_ids']),
@@ -64,4 +62,4 @@ def completion():
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True) # Set debug=True for development
+    app.run(host='0.0.0.0', port=5000, debug=False) # Set debug=True for development

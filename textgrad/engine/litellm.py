@@ -29,6 +29,7 @@ class Litellm(ChatOpenAI):
         self.system_prompt = system_prompt
         self.is_multimodal = is_multimodal
         self.base_url = base_url
+        self.custom_llm_provider = None
         
     
     def _generate_from_single_prompt(
@@ -54,6 +55,7 @@ class Litellm(ChatOpenAI):
             top_p = top_p,
             stream=None,
             base_url = self.base_url,
+            custom_llm_provider = self.custom_llm_provider,
             **kwargs
         )
         
